@@ -32,4 +32,4 @@ COPY --from=build /app/build ./build
 EXPOSE 80
 
 # Run SvelteKit with Node adapter
-CMD ["node", "build"]
+CMD ["node", "build/index.js"]
