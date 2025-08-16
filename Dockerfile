@@ -29,7 +29,7 @@ COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/build ./build
 
 # Expose app port
-EXPOSE 3000
+EXPOSE 80
 
 # Run SvelteKit with Node adapter
 CMD ["node", "build"]
