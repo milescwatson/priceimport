@@ -1,6 +1,17 @@
 # --- Build stage ---
 FROM node:24-alpine AS build
+ARG MYSQL_HOST=db-mysql-sfo2-41885-do-user-18047834-0.h.db.ondigitalocean.com
+ARG MYSQL_USER=priceimportuser
+ARG MYSQL_PASSWORD=qSRXjvPAZ8mfZBL
+ARG MYSQL_DATABASE=priceimport
+ARG MYSQL_PORT=25060
 
+# Intuit Oauth2 data
+ARG INTUIT_CLIENT_ID=ABZbmhpDTZaQfqp5ILnYLCIoHu2hEEhDmyfpX75VjexlVc0pMg
+ARG INTUIT_CLIENT_SECRET=uJJMJVikiPYnrYOMED4kX8Yxm76ublIy73MgreCr
+ARG INTUIT_SCOPE=com.intuit.quickbooks.accounting
+ARG INTUIT_REDIRECT_URI=https://development.priceimport.com/api/intuit-oauth2-redirect-url
+ARG INTUIT_STATE=state_placeholder
 # Set working directory
 WORKDIR /app
 # Install dependencies
