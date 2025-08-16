@@ -31,5 +31,6 @@ COPY --from=build /app/build ./build
 # Expose app port
 EXPOSE 80
 
+WORKDIR /app/build
 # Run SvelteKit with Node adapter
-CMD ["node", ".build/index.js"]
+CMD ["node", "index.js"]
