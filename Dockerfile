@@ -1,5 +1,6 @@
 # --- Build stage ---
 FROM node:22-alpine AS build
+ARG NODE_ENV=production
 
 # Set working directory
 WORKDIR /app
@@ -31,6 +32,5 @@ COPY --from=build /app/build ./build
 # Expose app port
 EXPOSE 80
 
-WORKDIR /app/build
 # Run SvelteKit with Node adapter
-CMD ["node", "index.js"]
+# CMD ["node", "build"]
