@@ -5,7 +5,14 @@
 // production configuration: https://developer.api.intuit.com/.well-known/openid_configuration
 // sandbox config: https://developer.api.intuit.com/.well-known/openid_sandbox_configuration
 
-export function GET(){
+export function GET({ request, url }){
+    console.log('Intuit OAuth2 redirect request received:', {
+        method: request.method,
+        url: url.href,
+        searchParams: Object.fromEntries(url.searchParams),
+        timestamp: new Date().toISOString()
+    });
+    
     return new Response(4, {
         'Content-Type': 'application/json'
     });
