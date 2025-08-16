@@ -1,6 +1,7 @@
 import fs from 'fs';
 import mysql from 'mysql2/promise';
-import { MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE } from '$env/static/private';
+
+const { MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE } =  process.env;
 
 let pool;
 const certificate = `-----BEGIN CERTIFICATE-----
