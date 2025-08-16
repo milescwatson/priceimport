@@ -1,6 +1,5 @@
 # --- Build stage ---
 FROM node:24-alpine AS build
-ARG NODE_ENV=production
 
 # Set working directory
 WORKDIR /app
