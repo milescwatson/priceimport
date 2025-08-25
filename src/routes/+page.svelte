@@ -74,7 +74,7 @@
         <p class="mt-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">Price Import uses AI to import pricing data from PDF pricelists into Quickbooks.</p>
         <p class="mt-8 text-lg font-medium text-pretty text-gray-600 sm:text-xl/8">Preview an Import for Free!</p>
         <div class="mt-10 flex items-center justify-center gap-x-6">
-          <a href="{data.authorizationUrl}" aria-label="Connect to Quickbooks"><img src="/images/C2QB_green_btn_tall_hover.png" alt="Connect to Quickbooks" /></a>
+          <a href="/api/intuit-authorization" aria-label="Connect to Quickbooks"><img src="/images/C2QB_green_btn_tall_hover.png" alt="Connect to Quickbooks" /></a>
         </div>
       </div>
     </div>

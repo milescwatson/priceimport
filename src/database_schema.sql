@@ -2,14 +2,17 @@ DROP TABLE IF EXISTS priceimport.`User`;
 CREATE TABLE priceimport.`User` (
     -- OpenID Connect Info:
     `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-    `givenName` VARCHAR(64) NOT NULL,
-    `familyName` VARCHAR(64) NOT NULL,
-    `emailVerified` BOOLEAN,
+    `givenName` VARCHAR(64),
+    `familyName` VARCHAR(64),
     `email` VARCHAR(128),
-    `intuitSub` VARCHAR(128),
+    `emailVerified` BOOLEAN,
+    `intuitSubId` VARCHAR(128) UNIQUE,
+    `realmId` VARCHAR(128),
     -- OpenAuth2 Info:
-    `refreshToken` VARCHAR(256) NOT NULL,
-    `accessToken` VARCHAR(256) NOT NULL,
+    `bearerAuth` VARCHAR(1024),
+    `refreshToken` VARCHAR(256),
+    `bearerAuthExpiration` TIMESTAMP,
+    `refreshTokenExpiration` TIMESTAMP,
     -- API Data
     `intuitUserData` JSON,
     -- Subscription Data
@@ -53,3 +56,10 @@ VALUES
     (1, "Upload", 100),
     (2, "Preview", 200)
     (3, "Preview Data", 200)
+
+DROP TABLE IF EXISTS priceimport.`Session`;
+CREATE TABLE priceimport.`Session` (
+    `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
+    `secret_hash` BLOB NOT NULL,
+    `createdDateTime` TIMESTAMP NOT NULL
+);

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import mysql from 'mysql2/promise';
 
-const { MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE } =  process.env;
+import { MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE } from '$env/static/private';
 
 let pool;
 const certificate = `-----BEGIN CERTIFICATE-----
@@ -36,18 +36,38 @@ const initializeDatabase = async function () {
         timezone: 'Z',
         host: MYSQL_HOST,
         user: MYSQL_USER,
+        database: MYSQL_DATABASE,
         password: MYSQL_PASSWORD,
+        port: MYSQL_PORT,
         connectionLimit: 50,
         ssl: {
             ca: certificate,
             rejectUnauthorized: true
         }
     })
+
     return true;
 };
 
-async function executeCallableStatement(query) {
-    const [rows, fields] = await pool.execute(query.sql, query?.values);
+
+/**
+ * Executes a SQL query against the MySQL database
+ * @param {Object} params - The parameters object
+ * @param {string} params.sql - The SQL query string with placeholders (?)
+ * @param {Array<any>} params.values - Array of values to substitute into SQL placeholders
+ * @returns {Promise<Array<Object>>} Promise that resolves to an array of result rows
+ */
+async function execute({sql, values}) {
+    if( !pool ) {
+        await initializeDatabase();
+    }
+    values = values.map((item) => {
+        if (item === undefined) {
+            return null;
+        }
+        return item;
+    });
+    const [rows, fields] = await pool.execute(sql, values);
     return rows;
 }
 
@@ -56,6 +76,7 @@ async function shutdownDatabaseConnection() {
         await pool.end();
         pool = null;
     }
+    return
 }
 
-export { initializeDatabase, executeCallableStatement, shutdownDatabaseConnection };
+export { execute };

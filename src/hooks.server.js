@@ -1,30 +1,18 @@
-import mysql from 'mysql2/promise';
-import fs from 'fs';
-import { initializeDatabase } from './utilities/databaseExecutor.js';
-import { MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE } from '$env/static/private';
+import { parse } from 'cookie';
+import { redirect } from '@sveltejs/kit';
+import { user } from '$lib/utilities/user.mjs';
+
+// The /import path is considered the "app." Therefore, we should run middleware to make sure that the user has a valid session before resolving.
+// If they do not have a valid session, they should be redirected to the homepage.
 
 export async function handle({ event, resolve }) {
-    initializeDatabase();
+    const cookies = parse(event.request.headers.get('cookie') || '');
+    event.locals.session = await user.getSession(cookies?.session_token?.split('.')[0]);
+    
+    if (event.url.pathname.startsWith('/import') && !event.locals.session) {
+        throw redirect(302, '/api/intuit-authorization');
+    }
+    
     return resolve(event);
-    // const cookies = parse(event.request.headers.get('cookie') || '');
-    // event.locals.session = cookies.session || null;
-
-    // const response = await resolve(event);
-
-    // // Example: setting a cookie on login
-    // if (event.url.pathname === '/login-success') {
-    //     response.headers.append('set-cookie', serialize('session', 'your-session-token', {
-    //         path: '/',
-    //         httpOnly: true,
-    //         sameSite: 'lax',
-    //         secure: true,
-    //         maxAge: 60 * 60 * 24  // 1 day
-    //     }));
-    // }
-
-    // return response;
 }
 
-export async function init() {
-    // await db.connect();
-}
